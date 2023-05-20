@@ -59,7 +59,7 @@ export default class ObsidianGPT extends Plugin {
 		}));
 		
 		this.registerView(VIEW_TYPE_GPT, 
-											(leaf) => new GPTView(leaf)
+											(leaf) => new GPTView(leaf, this)
 										);
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new ObsidianGPTSettingsTab(this.app, this));
