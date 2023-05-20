@@ -19,6 +19,7 @@
 
 <main>
   <div class="nav-header">
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div 
       id="refresh-ingest-btn"
       data-icon="refresh"

@@ -1,9 +1,9 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 
-// @tsconfig/svelte is required to resolve this error.
+//@tsconfig/svelte is required to resolve this error.
 // Ignore temporarily.
-// @ts-ignore
-// import ChatViewComponentView from "./chatView.svelte";
+//@ts-ignore
+import ChatViewComponent from "./chatView.svelte";
 
 export const VIEW_TYPE_GPT = "gpt-view";
 
@@ -25,14 +25,14 @@ export class GPTView extends ItemView {
     return "bot";
   }
 
-  async onOpen() {
-    // this._view = new ChatViewComponentView({
-    //   target: this.containerEl
-    // });
+  onOpen(): Promise<void> {
+    new ChatViewComponent({
+      target: this.contentEl
+    });
     return super.onOpen();
   }
 
-  async onClose() {
-    super.onClose();
+  onClose(): Promise<void> {
+    return super.onClose();
   }
 }
