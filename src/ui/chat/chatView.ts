@@ -4,13 +4,17 @@ import { ItemView, WorkspaceLeaf } from "obsidian";
 // Ignore temporarily.
 //@ts-ignore
 import ChatViewComponent from "./chatView.svelte";
+import type ObsidianGPT from "src/main";
 
 export const VIEW_TYPE_GPT = "gpt-view";
 
 export class GPTView extends ItemView {
 
-  constructor(leaf: WorkspaceLeaf) {
+  private _plugin: ObsidianGPT;
+
+  constructor(leaf: WorkspaceLeaf, plugin: ObsidianGPT) {
     super(leaf);
+    this._plugin = plugin;
   }
 
   getViewType() {
@@ -27,7 +31,10 @@ export class GPTView extends ItemView {
 
   onOpen(): Promise<void> {
     new ChatViewComponent({
-      target: this.contentEl
+      target: this.contentEl,
+      props: {
+        plugin: this._plugin
+      }
     });
     return super.onOpen();
   }

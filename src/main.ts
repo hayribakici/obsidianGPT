@@ -1,10 +1,10 @@
 import { App, Editor, MarkdownView, Modal,Plugin } from 'obsidian';
 import { GPTView, VIEW_TYPE_GPT } from "./ui/chat/chatView";
 import { ObsidianGPTSettingsTab } from './ui/settings';
-import { DEFAULT_SETTINGS, type ObsideanGTPSettings } from 'src/types';
+import { DEFAULT_SETTINGS, type ObsideanGTPSettings as ObsidianGPTSettings } from 'src/types';
 
 export default class ObsidianGPT extends Plugin {
-	settings: ObsideanGTPSettings;
+	settings: ObsidianGPTSettings;
 
 	async onload() {
 		await this.loadSettings();
