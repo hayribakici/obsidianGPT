@@ -1,7 +1,7 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 
 //@tsconfig/svelte is required to resolve this error.
-// Ignore temporarily.
+//Ignore temporarily.
 //@ts-ignore
 import ChatViewComponent from "./chatView.svelte";
 import type ObsidianGPT from "src/main";
@@ -33,7 +33,7 @@ export class GPTView extends ItemView {
     new ChatViewComponent({
       target: this.contentEl,
       props: {
-        plugin: this._plugin
+        plugin: this._plugin.settings
       }
     });
     return super.onOpen();

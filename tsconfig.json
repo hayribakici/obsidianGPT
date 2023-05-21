@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "inlineSources": true,
-    "module": "NodeNext",
+    "module": "ES2020",
     "target": "ES2020",
     "allowJs": true,
     "noImplicitAny": true,

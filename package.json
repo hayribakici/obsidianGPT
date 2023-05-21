@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "Ask your Obsidian (https://obsidian.md) documents questions and get the answers with the power of AI",
 	"main": "main.js",
+	"type": "module",
 	"scripts": {
 		"dev": "node esbuild.config.mjs dev",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",

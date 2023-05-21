@@ -1,10 +1,10 @@
-export interface ObsideanGTPSettings {
+export interface ObsidianGPTSettings {
 	gpt4allModelPath: string;
 	llamaModelPath: string;
 	persistenceDirectory: string;
 }
 
-export const DEFAULT_SETTINGS: ObsideanGTPSettings = {
+export const DEFAULT_SETTINGS: ObsidianGPTSettings = {
 	gpt4allModelPath: app.vault.configDir + '/obsidianGPT/models/ggml-gpt4all-j-v1.3-groovy.bin', 
 	llamaModelPath: app.vault.configDir + '/obsidianGPT/models/ggml-model-q4_0.bin',
 	persistenceDirectory: app.vault.configDir + '/obsidianGPT/models/db'

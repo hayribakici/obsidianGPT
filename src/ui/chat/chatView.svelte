@@ -2,23 +2,23 @@
 	import { HuggingFaceInferenceEmbeddings } from "langchain-gpt4all/embeddings/hf";
 	import { Chroma } from "langchain/vectorstores/chroma";
 	import { ChromaClient, Collection } from "chromadb";
-  import type { Document } from "langchain-gpt4all/docstore";
+	import type { Document } from "langchain-gpt4all/docstore";
 	import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 	import { UnstructuredLoader } from "langchain/document_loaders/fs/unstructured";
 	import fs from "fs";
 	import path from "path";
 
-	import type { State, Status } from "src/types";
+	import type { State, Status, ObsidianGPTSettings } from "src/types";
 	import type ObsidianGPT from "src/main";
 
-	export let plugin: ObsidianGPT;
+	export let plugin: ObsidianGPTSettings;
 
-	let settings = plugin.settings;
+	// let settings: ObsidianGPTSettings;
 
-	let files = plugin.app.vault.getMarkdownFiles();
+	// let files = plugin.app.vault.getMarkdownFiles();
 
 	let db: Chroma;
-  let collection: Collection;
+	let collection: Collection;
 
 	let embeddings: HuggingFaceInferenceEmbeddings;
 
@@ -35,10 +35,17 @@
 				fs.existsSync(path.join(dir, "chroma-collections.parquet")) &&
 				fs.existsSync(path.join(dir, "chroma-embeddings.parquet"))
 			) {
-				let indexFiles = fs.readdirSync(path.join(dir, "index/*.bin"));
-				indexFiles.concat(
-					fs.readdirSync(path.join(dir, "index/*.pkl"))
-				);
+				let indexFiles = fs
+					.readdirSync(path.join(dir, "index/"))
+					.filter(
+						(file) => path.extname(file).toLowerCase() === ".bin"
+					);
+				let pklFiles = fs
+					.readdirSync(path.join(dir, "index/"))
+					.filter(
+						(file) => path.extname(file).toLowerCase() === ".pkl"
+					);
+				indexFiles = indexFiles.concat(pklFiles);
 				if (indexFiles.length > 3) {
 					return true;
 				}
@@ -48,34 +55,37 @@
 	}
 
 	async function ingest() {
+		// this.settings = plugin.settings;
 		this.embeddings = new HuggingFaceInferenceEmbeddings({
-			model: settings.gpt4allModelPath,
+			model: plugin.gpt4allModelPath,
 		});
-		if (vectorStoreExists(settings.persistenceDirectory)) {
-			console.log(
-				"Appinding to existing vectorstore at " +
-					settings.persistenceDirectory
-			);
+		if (vectorStoreExists(plugin.persistenceDirectory)) {
 
 			this.db = new Chroma(this.embeddings, {
 				index: new ChromaClient({
-					path: settings.persistenceDirectory,
+					path: plugin.persistenceDirectory,
 				}),
 			});
-      this.collection = db.collection;
-      let texts = processDocuments(this.collection['metadata']);
+			this.collection = this.db.collection;
+			console.log(this.collection);
+			//         texts = process_documents([metadata['source'] for metadata in collection['metadatas']])
+			// let metas = collection['metadatas'];
+			// let ignored = [];
+			// for (let metadata in metas) {
+			// 	ignored.push(metadata['source']);
+			// }
+			// let texts = processDocuments(ignored);
 		} else {
+			console.log("vector storage does not exist");
 		}
 		return null;
 	}
 
-  function processDocuments(ignoredFiles: string[]): Document[] {
+	function processDocuments(ignoredFiles: string[]): Document[] {
+		return [];
+	}
 
-    return [];
-  }
-
-
-
+	function getIgnoredDocuments(collection: Collection) {}
 </script>
 
 <main>

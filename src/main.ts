@@ -1,7 +1,7 @@
-import { App, Editor, MarkdownView, Modal,Plugin } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Plugin } from 'obsidian';
 import { GPTView, VIEW_TYPE_GPT } from "./ui/chat/chatView";
 import { ObsidianGPTSettingsTab } from './ui/settings';
-import { DEFAULT_SETTINGS, type ObsideanGTPSettings as ObsidianGPTSettings } from 'src/types';
+import { DEFAULT_SETTINGS, type ObsidianGPTSettings as ObsidianGPTSettings } from 'src/types';
 
 export default class ObsidianGPT extends Plugin {
 	settings: ObsidianGPTSettings;
@@ -57,10 +57,11 @@ export default class ObsidianGPT extends Plugin {
 		this.registerEvent(this.app.vault.on('modify', () => {
 			console.log('file modified');
 		}));
-		
-		this.registerView(VIEW_TYPE_GPT, 
-											(leaf) => new GPTView(leaf, this)
-										);
+
+		this.registerView(VIEW_TYPE_GPT,
+			(leaf) => {
+				return new GPTView(leaf, this)
+			});
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new ObsidianGPTSettingsTab(this.app, this));
 
@@ -87,15 +88,15 @@ export default class ObsidianGPT extends Plugin {
 	}
 
 	async activateView() {
-    await this.app.workspace.getRightLeaf(false).setViewState({
-      type: VIEW_TYPE_GPT,
-      active: true,
-    });
+		await this.app.workspace.getRightLeaf(false).setViewState({
+			type: VIEW_TYPE_GPT,
+			active: true,
+		});
 
-    this.app.workspace.revealLeaf(
-      this.app.workspace.getLeavesOfType(VIEW_TYPE_GPT)[0]
-    );
-  }
+		this.app.workspace.revealLeaf(
+			this.app.workspace.getLeavesOfType(VIEW_TYPE_GPT)[0]
+		);
+	}
 }
 
 class SampleModal extends Modal {
@@ -104,12 +105,12 @@ class SampleModal extends Modal {
 	}
 
 	onOpen() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.setText('Woah!');
 	}
 
 	onClose() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }
